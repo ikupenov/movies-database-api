@@ -5,9 +5,9 @@ VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoviesDatabase.Core", "MoviesDatabase.Core\MoviesDatabase.Core.csproj", "{9DAA14A5-4FF7-4251-8369-39EE44CC82E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoviesDatabase.Infrastructure", "MoviesData.Infrastructure\MoviesDatabase.Infrastructure.csproj", "{54C4CC72-E560-439E-84EB-F505F9C1EBF3}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoviesDatabase.Api", "MoviesDatabase.Api\MoviesDatabase.Api.csproj", "{0196CA58-8D65-43BB-A30E-3027E4888CA7}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoviesDatabase.Infrastructure", "MoviesDatabase.Infrastructure\MoviesDatabase.Infrastructure.csproj", "{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,14 +19,14 @@ Global
 		{9DAA14A5-4FF7-4251-8369-39EE44CC82E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9DAA14A5-4FF7-4251-8369-39EE44CC82E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9DAA14A5-4FF7-4251-8369-39EE44CC82E9}.Release|Any CPU.Build.0 = Release|Any CPU
-		{54C4CC72-E560-439E-84EB-F505F9C1EBF3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{54C4CC72-E560-439E-84EB-F505F9C1EBF3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{54C4CC72-E560-439E-84EB-F505F9C1EBF3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{54C4CC72-E560-439E-84EB-F505F9C1EBF3}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0196CA58-8D65-43BB-A30E-3027E4888CA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0196CA58-8D65-43BB-A30E-3027E4888CA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0196CA58-8D65-43BB-A30E-3027E4888CA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0196CA58-8D65-43BB-A30E-3027E4888CA7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
