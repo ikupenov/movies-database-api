@@ -1,9 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MoviesDatabase.Api.Configuration.Settings;
 using MoviesDatabase.Core.Gateways;
 using MoviesDatabase.Core.Logging;
+using MoviesDatabase.Core.Managers.Movies;
+using MoviesDatabase.Core.Managers.Users;
 using MoviesDatabase.Infrastructure.Data;
 using MoviesDatabase.Infrastructure.Gateways;
 
@@ -11,9 +14,15 @@ namespace MoviesDatabase.Api.Configuration
 {
     public static class ServiceCollectionExtensions
     {
-        public static IServiceCollection RegisterServices(this IServiceCollection @this)
+        public static IServiceCollection RegisterDependencies(this IServiceCollection @this, IConfiguration configuration)
         {
-            @this.AddLogging();
+            @this
+                .AddDatabase(configuration)
+                .AddGateways()
+                .AddManagers()
+                .AddLogging()
+                .AddAutoMapper()
+                .AddSwagger(configuration);
 
             return @this;
         }
@@ -36,12 +45,33 @@ namespace MoviesDatabase.Api.Configuration
 
         public static IServiceCollection AddManagers(this IServiceCollection @this)
         {
+            @this.AddScoped<IUsersManager, UsersManager>();
+            @this.AddScoped<IMoviesManager, MoviesManager>();
+
             return @this;
         }
 
-        private static IServiceCollection AddLogging(this IServiceCollection @this)
+        public static IServiceCollection AddLogging(this IServiceCollection @this)
         {
             @this.AddSingleton<ILogger, ConsoleLogger>();
+
+            return @this;
+        }
+
+        public static IServiceCollection AddSwagger(this IServiceCollection @this, IConfiguration configuration)
+        {
+            var swaggerSettings = configuration.GetSettings<SwaggerSettings>();
+
+            @this.AddSwaggerGen(options =>
+            {
+                var info = new Swashbuckle.AspNetCore.Swagger.Info
+                {
+                    Title = swaggerSettings.Title,
+                    Version = swaggerSettings.Version
+                };
+
+                options.SwaggerDoc(swaggerSettings.Version, info);
+            });
 
             return @this;
         }

@@ -18,14 +18,14 @@ namespace MoviesDatabase.Api
 
         public virtual void ConfigureServices(IServiceCollection services)
         {
-            services.RegisterServices();
-
+            services.RegisterDependencies(Configuration);
+ 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseMvc();
+            app.UseMvc().UseSwaggerUI(Configuration);
         }
     }
 

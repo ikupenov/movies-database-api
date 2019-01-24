@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using MoviesDatabase.Core.Gateways;
-using MoviesDatabase.Core.Models;
+using MoviesDatabase.Core.Entities;
 using MoviesDatabase.Infrastructure.Data;
 
 namespace MoviesDatabase.Infrastructure.Gateways
@@ -9,7 +9,7 @@ namespace MoviesDatabase.Infrastructure.Gateways
     public sealed class EntityFrameworkManager : IManager
     {
         private readonly EntityFrameworkDbContext context;
-        private readonly Dictionary<Type, object> providers;
+        private readonly IDictionary<Type, object> providers;
 
         public EntityFrameworkManager(EntityFrameworkDbContext context)
         {

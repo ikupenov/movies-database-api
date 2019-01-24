@@ -1,5 +1,5 @@
 ﻿using System;
-using MoviesDatabase.Core.Models;
+using MoviesDatabase.Core.Entities;
 
 namespace MoviesDatabase.Core.Gateways
 {

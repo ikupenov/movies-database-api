@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using System.Linq.Expressions;
-using MoviesDatabase.Core.Models;
+using MoviesDatabase.Core.Entities;
 
 namespace MoviesDatabase.Core.Gateways
 {

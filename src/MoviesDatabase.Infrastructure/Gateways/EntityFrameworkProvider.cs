@@ -3,7 +3,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using MoviesDatabase.Core.Gateways;
-using MoviesDatabase.Core.Models;
+using MoviesDatabase.Core.Entities;
 using MoviesDatabase.Infrastructure.Data;
 
 namespace MoviesDatabase.Infrastructure.Gateways

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MoviesDatabase.Core.Models
+namespace MoviesDatabase.Core.Entities
 {
     public abstract class Entity
     {
