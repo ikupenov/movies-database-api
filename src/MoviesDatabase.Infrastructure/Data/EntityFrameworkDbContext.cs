@@ -46,10 +46,10 @@ namespace MoviesDatabase.Infrastructure.Data
         {
             var movieEntity = modelBuilder.Entity<Movie>();
 
-            const string genresSeparator = ", ";
+            const string GenreSeparator = ", ";
             var genresConverter = new ValueConverter<ICollection<Genre>, string>(
-                gns => string.Join(genresSeparator, gns.Select(g => g.ToString())),
-                gns => gns.Split(genresSeparator, StringSplitOptions.RemoveEmptyEntries).Select(g => Enum.Parse<Genre>(g)).ToList()
+                gns => string.Join(GenreSeparator, gns.Select(g => g.ToString())),
+                gns => gns.Split(GenreSeparator, StringSplitOptions.RemoveEmptyEntries).Select(g => Enum.Parse<Genre>(g)).ToList()
             );
 
             movieEntity.Property(m => m.Genres)
@@ -57,6 +57,8 @@ namespace MoviesDatabase.Infrastructure.Data
 
             movieEntity.Property(m => m.ReleaseDate)
                 .HasConversion(new DateTimeToStringConverter());
+
+            movieEntity.Ignore(m => m.YearOfRelease);
         }
     }
 }

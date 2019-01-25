@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using MoviesDatabase.Core.Managers.Movies;
@@ -24,10 +22,32 @@ namespace MoviesDatabase.Api.Modules.Movies
 
         [HttpGet]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(IEnumerable<MovieDto>))]
-        public IActionResult GetMovies()
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public IActionResult GetMovies([FromQuery]MoviesQueryModel queryModel)
         {
-            var movies = this.moviesManager.GetMovies();
+            var filterModel = new MovieFilterModel
+            {
+                Title = queryModel.Title,
+                YearOfRelease = queryModel.YearOfRelease,
+                Genres = queryModel.Genres
+            };
+
+            var orderModel = new MovieOrderModel
+            {
+                Sort = queryModel.Sort,
+                IsAscending = queryModel.IsAscending,
+                Skip = queryModel.Skip,
+                Take = queryModel.Take
+            };
+
+            var movies = this.moviesManager.GetMovies(filterModel, orderModel);
             var moviesDto = this.mapper.Map<IEnumerable<MovieDto>>(movies);
+
+            if (!movies.Any())
+            {
+                return NotFound();
+            }
 
             return Ok(moviesDto);
         }

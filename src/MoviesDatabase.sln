@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoviesDatabase.Api", "Movie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MoviesDatabase.Infrastructure", "MoviesDatabase.Infrastructure\MoviesDatabase.Infrastructure.csproj", "{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MoviesDatabase.Extensions", "MoviesDatabase.Extensions\MoviesDatabase.Extensions.csproj", "{9BD54E7A-DA64-4EC2-AC19-3A35C502A8AA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FEE2D2BF-C7D3-463D-B5B6-1E1CC7A108D3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9BD54E7A-DA64-4EC2-AC19-3A35C502A8AA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9BD54E7A-DA64-4EC2-AC19-3A35C502A8AA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9BD54E7A-DA64-4EC2-AC19-3A35C502A8AA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9BD54E7A-DA64-4EC2-AC19-3A35C502A8AA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

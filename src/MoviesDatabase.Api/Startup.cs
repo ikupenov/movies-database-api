@@ -19,8 +19,15 @@ namespace MoviesDatabase.Api
         public virtual void ConfigureServices(IServiceCollection services)
         {
             services.RegisterDependencies(Configuration);
- 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services
+                .AddMvc()
+                .AddJsonOptions(options =>
+                {
+                    options.SerializerSettings.Converters.Add(new Newtonsoft.Json.Converters.StringEnumConverter());
+                    options.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         public virtual void Configure(IApplicationBuilder app, IHostingEnvironment env)

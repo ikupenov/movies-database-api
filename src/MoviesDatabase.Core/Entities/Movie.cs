@@ -7,9 +7,13 @@ namespace MoviesDatabase.Core.Entities
     {
         public string Title { get; set; }
 
-        public double Rating { get; set; }
+        public float Rating { get; set; }
+
+        public int RunningTime { get; set; }
 
         public DateTime ReleaseDate { get; set; }
+
+        public int YearOfRelease => ReleaseDate.Year;
 
         public ICollection<Genre> Genres { get; set; }
     }

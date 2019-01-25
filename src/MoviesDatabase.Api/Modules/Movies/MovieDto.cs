@@ -10,7 +10,9 @@ namespace MoviesDatabase.Api.Modules.Movies
 
         public string Title { get; set; }
 
-        public double Rating { get; set; }
+        public float Rating { get; set; }
+
+        public int RunningTime { get; set; }
 
         public DateTime ReleaseDate { get; set; }
 
