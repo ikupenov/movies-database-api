@@ -10,7 +10,7 @@ namespace MoviesDatabase.Api.Modules.Movies
 
         public string Title { get; set; }
 
-        public float Rating { get; set; }
+        public float AverageRating { get; set; }
 
         public int RunningTime { get; set; }
 

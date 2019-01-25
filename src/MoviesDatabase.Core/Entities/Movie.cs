@@ -7,7 +7,7 @@ namespace MoviesDatabase.Core.Entities
     {
         public string Title { get; set; }
 
-        public float Rating { get; set; }
+        public float AverageRating { get; set; }
 
         public int RunningTime { get; set; }
 
@@ -16,5 +16,7 @@ namespace MoviesDatabase.Core.Entities
         public int YearOfRelease => ReleaseDate.Year;
 
         public ICollection<Genre> Genres { get; set; }
+
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

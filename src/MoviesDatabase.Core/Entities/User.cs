@@ -6,6 +6,6 @@ namespace MoviesDatabase.Core.Entities
     {
         public string Username { get; set; }
 
-        public virtual ICollection<Movie> RatedMovies { get; set; }
+        public virtual ICollection<Rating> Ratings { get; set; }
     }
 }

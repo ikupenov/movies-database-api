@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using MoviesDatabase.Core.Entities;
-using MoviesDatabase.Core.Managers.Movies;
+using MoviesDatabase.Core.Modules.Movies;
 
 namespace MoviesDatabase.Api.Modules.Movies
 {

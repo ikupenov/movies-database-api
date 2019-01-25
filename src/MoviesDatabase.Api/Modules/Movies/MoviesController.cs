@@ -4,7 +4,8 @@ using System.Linq;
 using System.Net;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using MoviesDatabase.Core.Managers.Movies;
+using MoviesDatabase.Core.Modules.Movies;
+using MoviesDatabase.Core.Modules.Users;
 
 namespace MoviesDatabase.Api.Modules.Movies
 {
@@ -13,12 +14,14 @@ namespace MoviesDatabase.Api.Modules.Movies
     public class MoviesController : ControllerBase
     {
         private readonly IMapper mapper;
-        private readonly IMoviesManager moviesManager;
+        private readonly IMovieManager movieManager;
+        private readonly IUserManager userManager;
 
-        public MoviesController(IMapper mapper, IMoviesManager moviesManager)
+        public MoviesController(IMapper mapper, IMovieManager movieManager, IUserManager userManager)
         {
             this.mapper = mapper;
-            this.moviesManager = moviesManager;
+            this.movieManager = movieManager;
+            this.userManager = userManager;
         }
 
         [HttpGet]
@@ -42,7 +45,7 @@ namespace MoviesDatabase.Api.Modules.Movies
                 Take = queryModel.Take
             };
 
-            var movies = this.moviesManager.GetMovies(filterModel, orderModel);
+            var movies = this.movieManager.GetMovies(filterModel, orderModel);
             var moviesDto = this.mapper.Map<IEnumerable<MovieDto>>(movies);
 
             if (!movies.Any())
@@ -53,14 +56,14 @@ namespace MoviesDatabase.Api.Modules.Movies
             return Ok(moviesDto);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{movieId}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(MovieDto))]
         [ProducesResponseType((int)HttpStatusCode.NotFound)]
-        public IActionResult GetMovie(Guid id)
+        public IActionResult GetMovie(Guid movieId)
         {
-            var movie = this.moviesManager.GetMovie(id);
+            var movie = this.movieManager.GetMovie(movieId);
 
-            if (movie == null)
+            if (movie is null)
             {
                 return NotFound();
             }
@@ -70,11 +73,31 @@ namespace MoviesDatabase.Api.Modules.Movies
             return Ok(movieDto);
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("{movieId}")]
         [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(MovieDto))]
-        public IActionResult RateMovie(Guid id)
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public IActionResult RateMovie(Guid movieId, [FromBody]RatingBodyModel ratingBody)
         {
-            return Ok();
+            var movie = this.movieManager.GetMovie(movieId);
+
+            if (movie is null)
+            {
+                return NotFound();
+            }
+
+            var user = this.userManager.GetUser(ratingBody.userId);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            this.movieManager.RateMovie(movie, user, ratingBody.rating);
+
+            var movieDto = this.mapper.Map<MovieDto>(movie);
+
+            return Ok(movieDto);
         }
     }
 }

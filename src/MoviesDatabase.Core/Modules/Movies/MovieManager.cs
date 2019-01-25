@@ -6,14 +6,14 @@ using MoviesDatabase.Core.Entities;
 using MoviesDatabase.Core.Gateways;
 using MoviesDatabase.Extensions;
 
-namespace MoviesDatabase.Core.Managers.Movies
+namespace MoviesDatabase.Core.Modules.Movies
 {
-    public class MoviesManager : IMoviesManager
+    public class MovieManager : IMovieManager
     {
         private readonly IManager manager;
         private readonly IProvider<Movie> moviesProvider;
 
-        public MoviesManager(IManager manager)
+        public MovieManager(IManager manager)
         {
             this.manager = manager;
             this.moviesProvider = this.manager.GetProvider<Movie>();
@@ -57,6 +57,52 @@ namespace MoviesDatabase.Core.Managers.Movies
             return moviesQuery;
         }
 
+        public void RateMovie(Movie movie, User user, float ratingValue)
+        {
+            if (ratingValue < Rating.MinRating || Rating.MaxRating < ratingValue)
+            {
+                throw new ArgumentException($"Must be between {Rating.MinRating} and {Rating.MaxRating}", nameof(ratingValue));
+            }
+
+            GuardNull(movie, nameof(movie));
+            GuardNull(user, nameof(user));
+
+            var userRating = user.Ratings.FirstOrDefault(r => r.MovieId == movie.Id);
+
+            if (userRating is null)
+            {
+                var rating = new Rating
+                {
+                    User = user,
+                    Movie = movie,
+                    Value = ratingValue
+                };
+
+                movie.Ratings.Add(rating);
+                user.Ratings.Add(rating);
+            }
+            else
+            {
+                var totalRatings = movie.Ratings.Count;
+                var oldAverageRating = totalRatings > 1
+                    ? ((movie.AverageRating * totalRatings) - userRating.Value) / (totalRatings - 1)
+                    : 0;
+
+                var oldAverageRatingRounded = Math.Round(oldAverageRating * 2) / 2;
+
+                movie.AverageRating = Convert.ToSingle(oldAverageRatingRounded);
+
+                userRating.Value = ratingValue;
+            }
+
+            var newAverageRating = movie.AverageRating + ((ratingValue - movie.AverageRating) / movie.Ratings.Count);
+            var newAverageRatingRounded = Math.Round(newAverageRating * 2) / 2;
+
+            movie.AverageRating = Convert.ToSingle(newAverageRatingRounded);
+
+            this.manager.SaveChanges();
+        }
+
         private IQueryable<Movie> FilterMoviesQuery(IQueryable<Movie> moviesQuery, MovieFilterModel filterModel)
         {
             if (!string.IsNullOrEmpty(filterModel.Title))
@@ -91,6 +137,14 @@ namespace MoviesDatabase.Core.Managers.Movies
             }
 
             return moviesQuery.Skip(orderModel.Skip).Take(orderModel.Take);
+        }
+
+        private static void GuardNull(object value, string paramName)
+        {
+            if (value is null)
+            {
+                throw new ArgumentNullException(paramName);
+            }
         }
     }
 }

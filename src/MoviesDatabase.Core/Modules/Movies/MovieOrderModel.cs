@@ -1,4 +1,4 @@
-﻿namespace MoviesDatabase.Core.Managers.Movies
+﻿namespace MoviesDatabase.Core.Modules.Movies
 {
     public class MovieOrderModel
     {

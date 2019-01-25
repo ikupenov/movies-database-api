@@ -5,8 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using MoviesDatabase.Api.Configuration.Settings;
 using MoviesDatabase.Core.Gateways;
 using MoviesDatabase.Core.Logging;
-using MoviesDatabase.Core.Managers.Movies;
-using MoviesDatabase.Core.Managers.Users;
+using MoviesDatabase.Core.Modules.Movies;
+using MoviesDatabase.Core.Modules.Users;
 using MoviesDatabase.Infrastructure.Data;
 using MoviesDatabase.Infrastructure.Gateways;
 
@@ -45,8 +45,8 @@ namespace MoviesDatabase.Api.Configuration
 
         public static IServiceCollection AddManagers(this IServiceCollection @this)
         {
-            @this.AddScoped<IUsersManager, UsersManager>();
-            @this.AddScoped<IMoviesManager, MoviesManager>();
+            @this.AddScoped<IUserManager, UserManager>();
+            @this.AddScoped<IMovieManager, MovieManager>();
 
             return @this;
         }

@@ -30,7 +30,15 @@ namespace MoviesDatabase.Infrastructure.Data.Prototyping
                 Username = "john.doe"
             };
 
+            var user2 = new User
+            {
+                Id = new Guid("d4739fb3-1241-4b38-879f-5f97696ffe56"),
+                Username = "jane.doe"
+            };
+
             usersProvider.Create(user1);
+            usersProvider.Create(user2);
+
             this.manager.SaveChanges();
 
             return this;
@@ -47,7 +55,7 @@ namespace MoviesDatabase.Infrastructure.Data.Prototyping
                 Genres = new List<Genre> { Genre.Action, Genre.Drama },
                 RunningTime = 148,
                 ReleaseDate = new DateTime(2010, 06, 16),
-                Rating = 8.8f
+                AverageRating = 0
             };
 
             var movie2 = new Movie
@@ -57,7 +65,7 @@ namespace MoviesDatabase.Infrastructure.Data.Prototyping
                 Genres = new List<Genre> { Genre.Adventure, Genre.Drama, Genre.SciFi },
                 RunningTime = 169,
                 ReleaseDate = new DateTime(2014, 11, 07),
-                Rating = 8.6f
+                AverageRating = 0
             };
 
             var movie3 = new Movie
@@ -67,7 +75,7 @@ namespace MoviesDatabase.Infrastructure.Data.Prototyping
                 Genres = new List<Genre> { Genre.Action, Genre.SciFi },
                 RunningTime = 136,
                 ReleaseDate = new DateTime(1999, 03, 31),
-                Rating = 8.7f
+                AverageRating = 0
             };
 
             var movie4 = new Movie
@@ -77,7 +85,7 @@ namespace MoviesDatabase.Infrastructure.Data.Prototyping
                 Genres = new List<Genre> { Genre.Drama, Genre.Romance },
                 RunningTime = 142,
                 ReleaseDate = new DateTime(1994, 07, 06),
-                Rating = 8.8f
+                AverageRating = 0
             };
 
             var movie5 = new Movie
@@ -87,7 +95,7 @@ namespace MoviesDatabase.Infrastructure.Data.Prototyping
                 Genres = new List<Genre> { Genre.Drama },
                 RunningTime = 142,
                 ReleaseDate = new DateTime(1994, 10, 14),
-                Rating = 9.3f
+                AverageRating = 0
             };
 
             var movie6 = new Movie
@@ -97,7 +105,7 @@ namespace MoviesDatabase.Infrastructure.Data.Prototyping
                 Genres = new List<Genre> { Genre.Action, Genre.Drama, Genre.Crime },
                 RunningTime = 152,
                 ReleaseDate = new DateTime(2008, 07, 18),
-                Rating = 9.0f
+                AverageRating = 0
             };
 
             moviesProvider.Create(movie1);
@@ -106,6 +114,7 @@ namespace MoviesDatabase.Infrastructure.Data.Prototyping
             moviesProvider.Create(movie4);
             moviesProvider.Create(movie5);
             moviesProvider.Create(movie6);
+
             this.manager.SaveChanges();
 
             return this;

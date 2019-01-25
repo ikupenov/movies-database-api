@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using MoviesDatabase.Core.Entities;
 
-namespace MoviesDatabase.Core.Managers.Movies
+namespace MoviesDatabase.Core.Modules.Movies
 {
     public class MovieFilterModel
     {
