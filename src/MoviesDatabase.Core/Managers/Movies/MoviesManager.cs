@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using MoviesDatabase.Core.Entities;
@@ -16,6 +17,11 @@ namespace MoviesDatabase.Core.Managers.Movies
         {
             this.manager = manager;
             this.moviesProvider = this.manager.GetProvider<Movie>();
+        }
+
+        public Movie GetMovie(Guid Id)
+        {
+            return this.moviesProvider.GetBy(m => m.Id == Id).FirstOrDefault();
         }
 
         public IEnumerable<Movie> GetMovies()

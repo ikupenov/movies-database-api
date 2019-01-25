@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using AutoMapper;
@@ -50,6 +51,30 @@ namespace MoviesDatabase.Api.Modules.Movies
             }
 
             return Ok(moviesDto);
+        }
+
+        [HttpGet("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(MovieDto))]
+        [ProducesResponseType((int)HttpStatusCode.NotFound)]
+        public IActionResult GetMovie(Guid id)
+        {
+            var movie = this.moviesManager.GetMovie(id);
+
+            if (movie == null)
+            {
+                return NotFound();
+            }
+
+            var movieDto = this.mapper.Map<MovieDto>(movie);
+
+            return Ok(movieDto);
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(MovieDto))]
+        public IActionResult RateMovie(Guid id)
+        {
+            return Ok();
         }
     }
 }
