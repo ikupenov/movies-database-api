@@ -30,11 +30,14 @@ namespace MoviesDatabase.Api.Modules.Movies
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public IActionResult GetMovies([FromQuery]MoviesQueryModel queryModel)
         {
+            var user = queryModel.UserId.HasValue ? this.userManager.GetUser(queryModel.UserId.Value) : null;
+
             var filterModel = new MovieFilterModel
             {
                 Title = queryModel.Title,
                 YearOfRelease = queryModel.YearOfRelease,
-                Genres = queryModel.Genres
+                Genres = queryModel.Genres,
+                RatedByUser = user
             };
 
             var orderModel = new MovieOrderModel
@@ -86,14 +89,14 @@ namespace MoviesDatabase.Api.Modules.Movies
                 return NotFound();
             }
 
-            var user = this.userManager.GetUser(ratingBody.userId);
+            var user = this.userManager.GetUser(ratingBody.UserId);
 
             if (user is null)
             {
                 return NotFound();
             }
 
-            this.movieManager.RateMovie(movie, user, ratingBody.rating);
+            this.movieManager.RateMovie(movie, user, ratingBody.Rating);
 
             var movieDto = this.mapper.Map<MovieDto>(movie);
 

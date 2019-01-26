@@ -6,10 +6,10 @@ namespace MoviesDatabase.Api.Modules.Movies
     public class RatingBodyModel
     {
         [Required]
-        public Guid userId;
+        public Guid UserId { get; set; }
 
         [Required]
         [Range(1, 5)]
-        public float rating;
+        public float Rating { get; set; }
     }
 }

@@ -67,7 +67,7 @@ namespace MoviesDatabase.Core.Modules.Movies
             GuardNull(movie, nameof(movie));
             GuardNull(user, nameof(user));
 
-            var userRating = user.Ratings.FirstOrDefault(r => r.MovieId == movie.Id);
+            var userRating = user.Ratings.FirstOrDefault(r => r.Movie.Id == movie.Id);
 
             if (userRating is null)
             {
@@ -81,24 +81,24 @@ namespace MoviesDatabase.Core.Modules.Movies
                 movie.Ratings.Add(rating);
                 user.Ratings.Add(rating);
             }
+            else if (userRating.Value == ratingValue)
+            {
+                return;
+            }
             else
             {
-                var totalRatings = movie.Ratings.Count;
-                var oldAverageRating = totalRatings > 1
-                    ? ((movie.AverageRating * totalRatings) - userRating.Value) / (totalRatings - 1)
-                    : 0;
+                var oldAverageRating = SubstractValueFromAverage(movie.AverageRating, userRating.Value, movie.Ratings.Count);
+                var oldAverageRatingRounded = RoundToNearestHalf(oldAverageRating);
 
-                var oldAverageRatingRounded = Math.Round(oldAverageRating * 2) / 2;
-
-                movie.AverageRating = Convert.ToSingle(oldAverageRatingRounded);
+                movie.AverageRating = oldAverageRatingRounded;
 
                 userRating.Value = ratingValue;
             }
 
-            var newAverageRating = movie.AverageRating + ((ratingValue - movie.AverageRating) / movie.Ratings.Count);
-            var newAverageRatingRounded = Math.Round(newAverageRating * 2) / 2;
+            var newAverageRating = AddValueToAverage(movie.AverageRating, ratingValue, movie.Ratings.Count);
+            var newAverageRatingRounded = RoundToNearestHalf(newAverageRating);
 
-            movie.AverageRating = Convert.ToSingle(newAverageRatingRounded);
+            movie.AverageRating = newAverageRatingRounded;
 
             this.manager.SaveChanges();
         }
@@ -120,6 +120,11 @@ namespace MoviesDatabase.Core.Modules.Movies
                 moviesQuery = moviesQuery.Where(m => !filterModel.Genres.Except(m.Genres).Any());
             }
 
+            if (filterModel.RatedByUser != null)
+            {
+                moviesQuery = moviesQuery.Where(m => m.Ratings.Any(r => r.User.Id == filterModel.RatedByUser.Id));
+            }
+
             return moviesQuery;
         }
 
@@ -129,14 +134,44 @@ namespace MoviesDatabase.Core.Modules.Movies
 
             if (orderModel.IsAscending)
             {
-                moviesQuery = moviesQuery.OrderBy(m => orderProperty.GetValue(m));
+                moviesQuery = moviesQuery
+                    .OrderBy(m => orderProperty.GetValue(m))
+                    .ThenBy(m => m.Title);
             }
             else
             {
-                moviesQuery = moviesQuery.OrderByDescending(m => orderProperty.GetValue(m));
+                moviesQuery = moviesQuery
+                    .OrderByDescending(m => orderProperty.GetValue(m))
+                    .ThenByDescending(m => m.Title);
             }
 
             return moviesQuery.Skip(orderModel.Skip).Take(orderModel.Take);
+        }
+
+        private static float AddValueToAverage(float average, float value, int totalCount)
+        {
+            var newAverage = average + ((value - average) / totalCount);
+
+            return newAverage;
+        }
+
+        private static float SubstractValueFromAverage(float average, float value, int totalCount)
+        {
+            if (totalCount <= 1)
+            {
+                return 0;
+            }
+
+            var newAverage = ((average * totalCount) - value) / (totalCount - 1);
+
+            return newAverage;
+        }
+
+        private static float RoundToNearestHalf(float number)
+        {
+            var roundedNumber = Math.Round(number * 2, MidpointRounding.AwayFromZero) / 2;
+
+            return Convert.ToSingle(roundedNumber);
         }
 
         private static void GuardNull(object value, string paramName)

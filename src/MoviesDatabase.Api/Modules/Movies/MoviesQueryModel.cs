@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using MoviesDatabase.Core.Entities;
@@ -17,6 +18,9 @@ namespace MoviesDatabase.Api.Modules.Movies
 
         [FromQuery(Name = "genre")]
         public IEnumerable<Genre> Genres { get; set; } = new List<Genre>();
+
+        [FromQuery(Name ="user-id")]
+        public Guid? UserId { get; set; }
 
         [FromQuery(Name = "sort")]
         public SortProperty Sort { get; set; } = SortProperty.Title;

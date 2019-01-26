@@ -46,12 +46,5 @@ namespace MoviesDatabase.Api.Modules.Users
 
             return Ok(userDto);
         }
-
-        //? can not reuse filters and sorts
-        [HttpGet("{userId}/rated-movies")]
-        public IActionResult RatedMovies(Guid userId)
-        {
-            return Ok();
-        }
     }
 }

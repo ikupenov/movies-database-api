@@ -13,8 +13,8 @@
 
     public enum SortProperty
     {
-        Title = 1,
-        Rating = 2,
-        YearOfRelease = 3
+        Title,
+        Rating,
+        YearOfRelease
     }
 }
